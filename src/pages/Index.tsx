@@ -1,9 +1,13 @@
 
-import { Github, Linkedin, Mail, Code, Palette, Server, Database, Cpu, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Mail, Code, Palette, Server, Database, Cpu, ExternalLink, Phone, BookOpen, Calendar, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import BlogsSection from "@/components/BlogsSection";
+import ProjectsSection from "@/components/ProjectsSection";
+import CallToAction from "@/components/CallToAction";
 
 const Index = () => {
   const skills = [
@@ -37,27 +41,32 @@ const Index = () => {
         <div className="relative container mx-auto px-6 py-20">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-6">
-              <div className="w-32 h-32 mx-auto bg-white/20 rounded-full flex items-center justify-center mb-6 backdrop-blur-sm border border-white/30">
-                <Code className="w-16 h-16 text-white" />
-              </div>
+              <Avatar className="w-32 h-32 mx-auto mb-6 border-4 border-white/30">
+                <AvatarImage src="/lovable-uploads/a8a73724-1aee-489a-9410-effb8e8b8151.png" alt="Munkaila Sule" />
+                <AvatarFallback className="bg-white/20 text-white text-2xl">MS</AvatarFallback>
+              </Avatar>
             </div>
             <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
-              Level 300 CS Student & Aspiring Full-Stack Developer
+              Munkaila Sule (fritzbeing)
             </h1>
             <p className="text-xl mb-2 text-blue-100">
-              Passionate about building innovative solutions
+              Level 300 CS Student & Aspiring Full-Stack Developer
             </p>
             <p className="text-lg mb-8 text-blue-200 max-w-2xl mx-auto">
               Junior Full-Stack Developer | Compiler Engineer | Graphic Designer | Driven by passion, not profit
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button variant="secondary" size="lg" className="bg-white text-blue-700 hover:bg-blue-50">
-                <Github className="w-5 h-5 mr-2" />
-                GitHub Profile
+              <Button variant="secondary" size="lg" className="bg-white text-blue-700 hover:bg-blue-50" asChild>
+                <a href="https://github.com/devzone-creator" target="_blank" rel="noopener noreferrer">
+                  <Github className="w-5 h-5 mr-2" />
+                  GitHub Profile
+                </a>
               </Button>
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-700">
-                <Mail className="w-5 h-5 mr-2" />
-                Contact Me
+              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-700" asChild>
+                <a href="mailto:fraizyglime@gmail.com">
+                  <Mail className="w-5 h-5 mr-2" />
+                  Contact Me
+                </a>
               </Button>
             </div>
           </div>
@@ -71,7 +80,7 @@ const Index = () => {
           <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
             <CardContent className="p-8">
               <p className="text-lg text-gray-700 leading-relaxed text-center">
-                I'm a Level 300 Computer Science student with a genuine passion for coding and building innovative solutions. 
+                I'm Munkaila Sule, a Level 300 Computer Science student from Ghana with a genuine passion for coding and building innovative solutions. 
                 My journey combines full-stack web development, compiler engineering, and graphic design. I believe in 
                 learning by doing rather than just theory - every line of code I write brings me closer to my goals. 
                 Currently preparing to host my first project on Wikipedia Cloud and actively building my GitHub portfolio.
@@ -132,6 +141,12 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Projects Section */}
+      <ProjectsSection />
+
+      {/* Blogs Section */}
+      <BlogsSection />
+
       {/* Current Focus Section */}
       <section className="py-16 bg-gradient-to-r from-blue-50 to-indigo-50">
         <div className="container mx-auto px-6">
@@ -188,6 +203,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Call to Action */}
+      <CallToAction />
+
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-12">
         <div className="container mx-auto px-6">
@@ -197,22 +215,28 @@ const Index = () => {
               I'm always excited to discuss technology, share ideas, or collaborate on interesting projects.
             </p>
             <div className="flex justify-center gap-4">
-              <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700">
-                <Github className="w-5 h-5 mr-2" />
-                GitHub
+              <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700" asChild>
+                <a href="https://github.com/devzone-creator" target="_blank" rel="noopener noreferrer">
+                  <Github className="w-5 h-5 mr-2" />
+                  GitHub
+                </a>
               </Button>
-              <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700">
-                <Linkedin className="w-5 h-5 mr-2" />
-                LinkedIn
+              <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700" asChild>
+                <a href="mailto:fraizyglime@gmail.com">
+                  <Mail className="w-5 h-5 mr-2" />
+                  Email
+                </a>
               </Button>
-              <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700">
-                <Mail className="w-5 h-5 mr-2" />
-                Email
+              <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700" asChild>
+                <a href="tel:+233599882901">
+                  <Phone className="w-5 h-5 mr-2" />
+                  Call
+                </a>
               </Button>
             </div>
             <Separator className="my-8 bg-gray-600" />
             <p className="text-gray-400">
-              © 2024 - Built with passion and code | Level 300 CS Student Portfolio
+              © 2024 Munkaila Sule - Built with passion and code | Level 300 CS Student Portfolio
             </p>
           </div>
         </div>
