@@ -1,0 +1,44 @@
+
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+const ExperienceSection = () => {
+  const experiences = [
+    {
+      role: "Junior Frontend Developer",
+      company: "COLDSIS Ghana Limited",
+      period: "Year 2 (Recent)",
+      description: "Developed responsive web interfaces and collaborated with design teams to implement user-friendly solutions."
+    },
+    {
+      role: "Software Requirements Specifications Intern",
+      company: "University",
+      period: "Year 1",
+      description: "Analyzed user needs and documented technical requirements for software development projects."
+    }
+  ];
+
+  return (
+    <section className="py-16">
+      <div className="container mx-auto px-6">
+        <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Experience</h2>
+        <div className="max-w-4xl mx-auto space-y-6">
+          {experiences.map((exp, index) => (
+            <Card key={index} className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardContent className="p-6">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
+                  <h3 className="text-xl font-semibold text-gray-800">{exp.role}</h3>
+                  <Badge variant="outline" className="w-fit mt-2 md:mt-0">{exp.period}</Badge>
+                </div>
+                <h4 className="text-lg text-blue-600 font-medium mb-3">{exp.company}</h4>
+                <p className="text-gray-700 leading-relaxed">{exp.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ExperienceSection;
