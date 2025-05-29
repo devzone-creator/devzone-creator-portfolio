@@ -15,7 +15,7 @@ export const useBlogPosts = () => {
       try {
         // Test basic Supabase connection first
         const { data: healthCheck, error: healthError } = await supabase
-          .from('blog_posts')
+          .from('blog_posts' as any)
           .select('count', { count: 'exact', head: true });
         
         console.log('Supabase health check:', { healthCheck, healthError });
@@ -32,7 +32,7 @@ export const useBlogPosts = () => {
         
         console.log('Supabase connection successful, fetching blog posts...');
         const { data, error } = await supabase
-          .from('blog_posts')
+          .from('blog_posts' as any)
           .select('*')
           .order('created_at', { ascending: false });
         
@@ -48,8 +48,8 @@ export const useBlogPosts = () => {
         
         console.log('Successfully fetched blog posts:', data?.length || 0);
         
-        // Convert unknown data to BlogPost[] with proper type handling
-        return (data || []).map(post => ({
+        // Convert data to BlogPost[] with proper type handling
+        return (data || []).map((post: any) => ({
           id: post.id || '',
           title: post.title || '',
           excerpt: post.excerpt || '',
