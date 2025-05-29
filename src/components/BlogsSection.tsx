@@ -8,6 +8,21 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
+interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  created_at: string;
+  created_utc?: number;
+  source: string;
+  category?: string;
+  subreddit?: string;
+  featured?: boolean;
+  score?: number;
+  read_time?: string;
+  url?: string;
+}
+
 const BlogsSection = () => {
   const { toast } = useToast();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -15,7 +30,7 @@ const BlogsSection = () => {
   // Fetch blog posts from Supabase
   const { data: blogPosts = [], isLoading, refetch } = useQuery({
     queryKey: ['blog-posts'],
-    queryFn: async () => {
+    queryFn: async (): Promise<BlogPost[]> => {
       const { data, error } = await supabase
         .from('blog_posts')
         .select('*')
@@ -114,7 +129,7 @@ const BlogsSection = () => {
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
                   <Badge variant="secondary" className={post.source === 'reddit' ? 'bg-orange-50 text-orange-700' : 'bg-blue-50 text-blue-700'}>
-                    {post.source === 'reddit' ? `r/${post.subreddit}` : post.category}
+                    {post.source === 'reddit' ? `r/${post.subreddit || 'unknown'}` : post.category || 'Blog'}
                   </Badge>
                   <div className="flex gap-2">
                     {post.featured && (
@@ -122,7 +137,7 @@ const BlogsSection = () => {
                         Featured
                       </Badge>
                     )}
-                    {post.source === 'reddit' && (
+                    {post.source === 'reddit' && post.score && (
                       <Badge variant="outline" className="text-xs">
                         {post.score} upvotes
                       </Badge>
