@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const AboutSection = () => {
   return (
-    <section className="py-16 container mx-auto px-6 bg-slate-900">
+    <section className="py-16 container mx-auto px-6 bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-12 text-white">About Me</h2>
         <Card className="bg-slate-800/80 backdrop-blur-sm border-slate-700 shadow-lg">

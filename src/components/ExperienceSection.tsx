@@ -19,7 +19,7 @@ const ExperienceSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-slate-900">
+    <section className="py-16 bg-gradient-to-br from-slate-900 via-gray-900 to-cyan-900/20">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl font-bold text-center mb-12 text-white">Experience</h2>
         <div className="max-w-4xl mx-auto space-y-6">
@@ -28,9 +28,9 @@ const ExperienceSection = () => {
               <CardContent className="p-6">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
                   <h3 className="text-xl font-semibold text-white">{exp.role}</h3>
-                  <Badge variant="outline" className="w-fit mt-2 md:mt-0 border-blue-400 text-blue-400">{exp.period}</Badge>
+                  <Badge variant="outline" className="w-fit mt-2 md:mt-0 border-cyan-400 text-cyan-400">{exp.period}</Badge>
                 </div>
-                <h4 className="text-lg text-blue-400 font-medium mb-3">{exp.company}</h4>
+                <h4 className="text-lg text-cyan-400 font-medium mb-3">{exp.company}</h4>
                 <p className="text-slate-300 leading-relaxed">{exp.description}</p>
               </CardContent>
             </Card>
