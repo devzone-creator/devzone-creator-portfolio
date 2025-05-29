@@ -12,20 +12,20 @@ const Footer = () => {
           <p className="text-gray-300 mb-6">
             I'm always excited to discuss technology, share ideas, or collaborate on interesting projects.
           </p>
-          <div className="flex justify-center gap-4">
-            <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700" asChild>
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 max-w-md mx-auto sm:max-w-none">
+            <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700 flex-1 sm:flex-none" asChild>
               <a href="https://github.com/devzone-creator" target="_blank" rel="noopener noreferrer">
                 <Github className="w-5 h-5 mr-2" />
                 GitHub
               </a>
             </Button>
-            <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700" asChild>
+            <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700 flex-1 sm:flex-none" asChild>
               <a href="mailto:fraizyglime@gmail.com">
                 <Mail className="w-5 h-5 mr-2" />
                 Email
               </a>
             </Button>
-            <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700" asChild>
+            <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-700 flex-1 sm:flex-none" asChild>
               <a href="tel:+233599882901">
                 <Phone className="w-5 h-5 mr-2" />
                 Call
