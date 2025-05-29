@@ -16,17 +16,35 @@ export const RefreshButton = ({ onRefreshComplete }: RefreshButtonProps) => {
   const refreshRedditPosts = async () => {
     console.log('Starting Reddit posts refresh...');
     setIsRefreshing(true);
+    
     try {
-      console.log('Testing Supabase functions connection...');
-      const { data, error } = await supabase.functions.invoke('scrape-reddit-posts');
+      console.log('Calling Supabase edge function...');
+      
+      const { data, error } = await supabase.functions.invoke('scrape-reddit-posts', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({})
+      });
       
       console.log('Edge function response:', { data, error });
       
       if (error) {
         console.error('Error refreshing Reddit posts:', error);
+        
+        // Provide more specific error messages
+        let errorMessage = 'Failed to refresh Reddit posts';
+        if (error.message?.includes('Failed to send')) {
+          errorMessage = 'Edge function is not responding. Please try again in a moment.';
+        } else if (error.message?.includes('timeout')) {
+          errorMessage = 'Request timed out. Please try again.';
+        } else if (error.message) {
+          errorMessage = `Error: ${error.message}`;
+        }
+        
         toast({
-          title: "Error",
-          description: `Failed to refresh Reddit posts: ${error.message || 'Unknown error'}`,
+          title: "Refresh Failed",
+          description: errorMessage,
           variant: "destructive",
         });
       } else {
@@ -35,6 +53,7 @@ export const RefreshButton = ({ onRefreshComplete }: RefreshButtonProps) => {
           title: "Success",
           description: data?.message || "Reddit posts refreshed successfully!",
         });
+        
         // Refresh the blog posts query after a short delay
         setTimeout(() => {
           onRefreshComplete();
@@ -43,8 +62,8 @@ export const RefreshButton = ({ onRefreshComplete }: RefreshButtonProps) => {
     } catch (error) {
       console.error('Unexpected error during refresh:', error);
       toast({
-        title: "Error",
-        description: `Failed to refresh Reddit posts: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        title: "Network Error",
+        description: "Failed to connect to the refresh service. Please check your internet connection and try again.",
         variant: "destructive",
       });
     } finally {
@@ -61,7 +80,7 @@ export const RefreshButton = ({ onRefreshComplete }: RefreshButtonProps) => {
       className="w-full sm:w-auto border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-900"
     >
       <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
-      Refresh Reddit Posts
+      {isRefreshing ? 'Refreshing...' : 'Refresh Reddit Posts'}
     </Button>
   );
 };
