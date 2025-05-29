@@ -13,6 +13,8 @@ serve(async (req) => {
   }
 
   try {
+    console.log('Starting Reddit posts scraping...')
+    
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? '',
@@ -24,62 +26,109 @@ serve(async (req) => {
 
     for (const subreddit of subreddits) {
       try {
-        const response = await fetch(`https://www.reddit.com/r/${subreddit}/hot.json?limit=5`)
+        console.log(`Fetching from r/${subreddit}...`)
+        
+        const response = await fetch(`https://www.reddit.com/r/${subreddit}/hot.json?limit=5`, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (compatible; portfolio-bot/1.0)'
+          }
+        })
+        
+        if (!response.ok) {
+          console.error(`Failed to fetch r/${subreddit}: ${response.status}`)
+          continue
+        }
+        
         const data = await response.json()
+        console.log(`Fetched data from r/${subreddit}:`, data.data?.children?.length || 0, 'posts')
         
         if (data.data && data.data.children) {
           const posts = data.data.children.map((post: any) => ({
-            title: post.data.title,
-            excerpt: post.data.selftext ? post.data.selftext.substring(0, 200) + '...' : 'External link post',
+            title: post.data.title || 'Untitled',
+            excerpt: post.data.selftext 
+              ? (post.data.selftext.length > 200 ? post.data.selftext.substring(0, 200) + '...' : post.data.selftext)
+              : 'External link post',
             url: `https://reddit.com${post.data.permalink}`,
             subreddit: post.data.subreddit,
-            score: post.data.score,
+            score: post.data.score || 0,
             created_utc: post.data.created_utc,
-            author: post.data.author,
+            author: post.data.author || 'unknown',
             category: 'Reddit',
             source: 'reddit'
           }))
           allPosts.push(...posts)
+          console.log(`Added ${posts.length} posts from r/${subreddit}`)
         }
       } catch (error) {
         console.error(`Error fetching from r/${subreddit}:`, error)
       }
     }
 
+    console.log(`Total posts collected: ${allPosts.length}`)
+
     // Sort by score and take top 10
     const topPosts = allPosts
       .sort((a, b) => b.score - a.score)
       .slice(0, 10)
 
+    console.log(`Top posts selected: ${topPosts.length}`)
+
     // Store in database
     if (topPosts.length > 0) {
+      console.log('Clearing old Reddit posts...')
       // First, clear old Reddit posts
-      await supabaseClient
+      const { error: deleteError } = await supabaseClient
         .from('blog_posts')
         .delete()
         .eq('source', 'reddit')
 
+      if (deleteError) {
+        console.error('Error deleting old posts:', deleteError)
+      } else {
+        console.log('Old Reddit posts cleared successfully')
+      }
+
+      console.log('Inserting new posts...')
       // Insert new posts
-      const { error } = await supabaseClient
+      const { error: insertError } = await supabaseClient
         .from('blog_posts')
         .insert(topPosts)
 
-      if (error) {
-        console.error('Error inserting posts:', error)
+      if (insertError) {
+        console.error('Error inserting posts:', insertError)
+        return new Response(
+          JSON.stringify({ error: 'Failed to insert posts', details: insertError }),
+          { 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 500,
+          },
+        )
+      } else {
+        console.log('New posts inserted successfully')
       }
     }
 
+    console.log('Reddit posts refresh completed successfully')
+
     return new Response(
-      JSON.stringify({ success: true, posts: topPosts }),
+      JSON.stringify({ 
+        success: true, 
+        posts: topPosts,
+        message: `Successfully refreshed ${topPosts.length} Reddit posts`
+      }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
       },
     )
   } catch (error) {
-    console.error('Error:', error)
+    console.error('Unexpected error:', error)
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: 'Internal server error', 
+        message: error.message,
+        details: error.stack 
+      }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,
