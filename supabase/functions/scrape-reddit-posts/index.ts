@@ -66,30 +66,38 @@ serve(async (req) => {
         const rssText = await response.text()
         console.log(`Fetched RSS from r/${subreddit}, length: ${rssText.length}`)
         
-        // Parse RSS XML to extract posts
-        const parser = new DOMParser()
-        const xmlDoc = parser.parseFromString(rssText, 'text/xml')
-        const items = xmlDoc.querySelectorAll('item')
+        // Parse RSS XML using regex patterns (compatible with Deno)
+        const itemMatches = rssText.match(/<item>[\s\S]*?<\/item>/g) || []
+        console.log(`Found ${itemMatches.length} items in RSS feed for r/${subreddit}`)
         
-        console.log(`Found ${items.length} items in RSS feed for r/${subreddit}`)
-        
-        for (const item of items) {
+        for (const itemXml of itemMatches) {
           try {
-            const title = item.querySelector('title')?.textContent || 'Untitled'
-            const link = item.querySelector('link')?.textContent || ''
-            const description = item.querySelector('description')?.textContent || ''
-            const pubDate = item.querySelector('pubDate')?.textContent || ''
+            // Extract title
+            const titleMatch = itemXml.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)
+            const title = titleMatch ? titleMatch[1].trim() : 'Untitled'
+            
+            // Extract link
+            const linkMatch = itemXml.match(/<link>(.*?)<\/link>/)
+            const link = linkMatch ? linkMatch[1].trim() : ''
+            
+            // Extract description
+            const descMatch = itemXml.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/)
+            const description = descMatch ? descMatch[1] : ''
+            
+            // Extract publication date
+            const pubDateMatch = itemXml.match(/<pubDate>(.*?)<\/pubDate>/)
+            const pubDate = pubDateMatch ? pubDateMatch[1].trim() : ''
             
             // Extract score from description if available (Reddit RSS includes this)
             const scoreMatch = description.match(/(\d+) points?/)
             const score = scoreMatch ? parseInt(scoreMatch[1]) : 0
             
             // Extract author from description
-            const authorMatch = description.match(/submitted by.*?\/u\/([^\s<]+)/)
+            const authorMatch = description.match(/submitted by.*?\/u\/([^\s<&]+)/)
             const author = authorMatch ? authorMatch[1] : 'unknown'
             
             // Clean up description text
-            let excerpt = description.replace(/<[^>]*>/g, '').trim()
+            let excerpt = description.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, ' ').trim()
             if (excerpt.length > 200) {
               excerpt = excerpt.substring(0, 200) + '...'
             }
@@ -102,7 +110,7 @@ serve(async (req) => {
             const created_utc = Math.floor(pubDateTime.getTime() / 1000)
             
             const post = {
-              title: title.trim(),
+              title: title,
               excerpt: excerpt,
               url: link,
               subreddit: subreddit,
@@ -119,7 +127,7 @@ serve(async (req) => {
           }
         }
         
-        console.log(`Added ${items.length} posts from r/${subreddit}`)
+        console.log(`Added ${itemMatches.length} posts from r/${subreddit}`)
       } catch (error) {
         console.error(`Error fetching from r/${subreddit}:`, error)
         // Continue with other subreddits even if one fails
