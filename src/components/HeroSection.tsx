@@ -14,7 +14,7 @@ const HeroSection = () => {
               <AvatarImage 
                 src="/lovable-uploads/a8a73724-1aee-489a-9410-effb8e8b8151.png" 
                 alt="Munkaila Sule" 
-                className="object-contain"
+                className="object-cover"
               />
               <AvatarFallback className="bg-white/20 text-white text-lg sm:text-xl lg:text-2xl">MS</AvatarFallback>
             </Avatar>
