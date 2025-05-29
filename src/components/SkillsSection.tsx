@@ -13,14 +13,14 @@ const SkillsSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-white/50">
+    <section className="py-16 bg-slate-800">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Technical Skills</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 text-white">Technical Skills</h2>
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skills.map((skillGroup, index) => (
-            <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/80 backdrop-blur-sm border-0">
+            <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-slate-700/80 backdrop-blur-sm border-slate-600">
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-3 text-lg">
+                <CardTitle className="flex items-center gap-3 text-lg text-white">
                   <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
                     {skillGroup.icon}
                   </div>
@@ -30,7 +30,7 @@ const SkillsSection = () => {
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {skillGroup.items.map((skill, skillIndex) => (
-                    <Badge key={skillIndex} variant="secondary" className="bg-blue-50 text-blue-700 hover:bg-blue-100">
+                    <Badge key={skillIndex} variant="secondary" className="bg-blue-900 text-blue-100 hover:bg-blue-800">
                       {skill}
                     </Badge>
                   ))}
