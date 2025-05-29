@@ -202,53 +202,6 @@ const BlogsSection = () => {
       </div>
     </section>
   );
-
-  async function refreshRedditPosts() {
-    setIsRefreshing(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('scrape-reddit-posts');
-      
-      if (error) {
-        console.error('Error refreshing Reddit posts:', error);
-        toast({
-          title: "Error",
-          description: "Failed to refresh Reddit posts. Please try again.",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Success",
-          description: "Reddit posts refreshed successfully!",
-        });
-        refetch();
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      toast({
-        title: "Error",
-        description: "Failed to refresh Reddit posts. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsRefreshing(false);
-    }
-  }
-
-  function formatDate(dateString: string, createdUtc?: number) {
-    if (createdUtc) {
-      return new Date(createdUtc * 1000).toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric', 
-        year: 'numeric' 
-      });
-    }
-    
-    return new Date(dateString).toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric' 
-    });
-  }
 };
 
 export default BlogsSection;
