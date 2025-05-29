@@ -1,3 +1,4 @@
+
 import { BookOpen, Calendar, ExternalLink, RefreshCw } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,37 +28,71 @@ const BlogsSection = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Fetch blog posts from Supabase
-  const { data: blogPosts = [], isLoading, refetch } = useQuery({
+  const { data: blogPosts = [], isLoading, error, refetch } = useQuery({
     queryKey: ['blog-posts'],
     queryFn: async (): Promise<BlogPost[]> => {
-      console.log('Fetching blog posts from Supabase...');
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .order('created_at', { ascending: false });
+      console.log('Starting Supabase connection test...');
       
-      if (error) {
-        console.error('Error fetching blog posts:', error);
+      try {
+        // Test basic Supabase connection first
+        const { data: healthCheck, error: healthError } = await supabase
+          .from('blog_posts')
+          .select('count', { count: 'exact', head: true });
+        
+        console.log('Supabase health check:', { healthCheck, healthError });
+        
+        if (healthError) {
+          console.error('Supabase connection failed:', healthError);
+          toast({
+            title: "Database Connection Error",
+            description: `Failed to connect to database: ${healthError.message}`,
+            variant: "destructive",
+          });
+          return [];
+        }
+        
+        console.log('Supabase connection successful, fetching blog posts...');
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (error) {
+          console.error('Error fetching blog posts:', error);
+          toast({
+            title: "Database Error",
+            description: `Failed to fetch blog posts: ${error.message}`,
+            variant: "destructive",
+          });
+          return [];
+        }
+        
+        console.log('Successfully fetched blog posts:', data?.length || 0);
+        
+        // Convert unknown data to BlogPost[] with proper type handling
+        return (data || []).map(post => ({
+          id: post.id || '',
+          title: post.title || '',
+          excerpt: post.excerpt || '',
+          created_at: post.created_at || '',
+          created_utc: post.created_utc,
+          source: post.source || '',
+          category: post.category,
+          subreddit: post.subreddit,
+          featured: post.featured,
+          score: post.score,
+          read_time: post.read_time,
+          url: post.url
+        })) as BlogPost[];
+      } catch (error) {
+        console.error('Unexpected error in blog posts fetch:', error);
+        toast({
+          title: "Connection Error",
+          description: `Unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          variant: "destructive",
+        });
         return [];
       }
-      
-      console.log('Fetched blog posts:', data?.length || 0);
-      
-      // Convert unknown data to BlogPost[] with proper type handling
-      return (data || []).map(post => ({
-        id: post.id || '',
-        title: post.title || '',
-        excerpt: post.excerpt || '',
-        created_at: post.created_at || '',
-        created_utc: post.created_utc,
-        source: post.source || '',
-        category: post.category,
-        subreddit: post.subreddit,
-        featured: post.featured,
-        score: post.score,
-        read_time: post.read_time,
-        url: post.url
-      })) as BlogPost[];
     },
   });
 
@@ -65,6 +100,7 @@ const BlogsSection = () => {
     console.log('Starting Reddit posts refresh...');
     setIsRefreshing(true);
     try {
+      console.log('Testing Supabase functions connection...');
       const { data, error } = await supabase.functions.invoke('scrape-reddit-posts');
       
       console.log('Edge function response:', { data, error });
@@ -121,7 +157,27 @@ const BlogsSection = () => {
       <section className="py-8 sm:py-12 lg:py-16 bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800">
         <div className="container mx-auto px-4 sm:px-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-white">Blog Posts</h2>
-          <div className="text-center text-slate-300">Loading blog posts...</div>
+          <div className="text-center text-slate-300">Testing Supabase connection and loading blog posts...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-8 sm:py-12 lg:py-16 bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800">
+        <div className="container mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-white">Blog Posts</h2>
+          <div className="text-center text-red-400">
+            <p>Failed to load blog posts</p>
+            <p className="text-sm mt-2">Error: {error.message}</p>
+            <Button 
+              onClick={() => refetch()} 
+              className="mt-4 bg-red-600 hover:bg-red-700"
+            >
+              Retry Connection
+            </Button>
+          </div>
         </div>
       </section>
     );
