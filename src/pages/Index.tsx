@@ -13,9 +13,9 @@ import Navigation from "@/components/Navigation";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-slate-900 overflow-x-hidden">
       <Navigation />
-      <div className="pt-16"> {/* Add padding-top to account for fixed navigation */}
+      <div className="pt-16">
         <HeroSection />
         <div id="about">
           <AboutSection />
