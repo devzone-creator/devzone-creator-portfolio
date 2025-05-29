@@ -41,7 +41,8 @@ const BlogsSection = () => {
         return [];
       }
       
-      return data || [];
+      // Type assertion since we know the database structure matches our interface
+      return (data || []) as BlogPost[];
     },
   });
 
@@ -95,9 +96,9 @@ const BlogsSection = () => {
 
   if (isLoading) {
     return (
-      <section className="py-16 bg-white/50">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">Blog Posts</h2>
+      <section className="py-8 sm:py-12 lg:py-16 bg-white/50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-gray-800">Blog Posts</h2>
           <div className="text-center">Loading blog posts...</div>
         </div>
       </section>
@@ -105,35 +106,36 @@ const BlogsSection = () => {
   }
 
   return (
-    <section className="py-16 bg-white/50">
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-center gap-4 mb-4">
-          <h2 className="text-3xl font-bold text-gray-800">Blog Posts</h2>
+    <section className="py-8 sm:py-12 lg:py-16 bg-white/50">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Blog Posts</h2>
           <Button
             onClick={refreshRedditPosts}
             disabled={isRefreshing}
             variant="outline"
             size="sm"
+            className="w-full sm:w-auto"
           >
             <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
             Refresh Reddit Posts
           </Button>
         </div>
-        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p className="text-center text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto px-4">
           A curated mix of my personal blog posts and trending content from the programming community.
         </p>
         
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {blogPosts.map((post) => (
             <Card key={post.id} className={`hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/80 backdrop-blur-sm border-0 ${post.featured ? 'ring-2 ring-blue-500' : ''}`}>
-              <CardHeader>
+              <CardHeader className="p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-2">
                   <Badge variant="secondary" className={post.source === 'reddit' ? 'bg-orange-50 text-orange-700' : 'bg-blue-50 text-blue-700'}>
                     {post.source === 'reddit' ? `r/${post.subreddit || 'unknown'}` : post.category || 'Blog'}
                   </Badge>
                   <div className="flex gap-2">
                     {post.featured && (
-                      <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+                      <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs">
                         Featured
                       </Badge>
                     )}
@@ -144,11 +146,11 @@ const BlogsSection = () => {
                     )}
                   </div>
                 </div>
-                <CardTitle className="text-xl leading-tight">{post.title}</CardTitle>
+                <CardTitle className="text-lg sm:text-xl leading-tight">{post.title}</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-gray-600 leading-relaxed">{post.excerpt}</p>
-                <div className="flex items-center gap-4 text-sm text-gray-500">
+              <CardContent className="space-y-4 p-4 sm:p-6 pt-0">
+                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{post.excerpt}</p>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
                   <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
                     {formatDate(post.created_at, post.created_utc)}
@@ -178,8 +180,8 @@ const BlogsSection = () => {
           ))}
         </div>
         
-        <div className="text-center mt-12">
-          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+        <div className="text-center mt-8 sm:mt-12">
+          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 w-full sm:w-auto">
             <BookOpen className="w-5 h-5 mr-2" />
             View All Posts
           </Button>
