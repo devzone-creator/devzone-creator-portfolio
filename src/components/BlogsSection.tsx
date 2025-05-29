@@ -41,8 +41,21 @@ const BlogsSection = () => {
         return [];
       }
       
-      // Type assertion since we know the database structure matches our interface
-      return (data || []) as BlogPost[];
+      // Convert unknown data to BlogPost[] with proper type handling
+      return (data || []).map(post => ({
+        id: post.id || '',
+        title: post.title || '',
+        excerpt: post.excerpt || '',
+        created_at: post.created_at || '',
+        created_utc: post.created_utc,
+        source: post.source || '',
+        category: post.category,
+        subreddit: post.subreddit,
+        featured: post.featured,
+        score: post.score,
+        read_time: post.read_time,
+        url: post.url
+      })) as BlogPost[];
     },
   });
 
@@ -189,6 +202,53 @@ const BlogsSection = () => {
       </div>
     </section>
   );
+
+  async function refreshRedditPosts() {
+    setIsRefreshing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('scrape-reddit-posts');
+      
+      if (error) {
+        console.error('Error refreshing Reddit posts:', error);
+        toast({
+          title: "Error",
+          description: "Failed to refresh Reddit posts. Please try again.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: "Reddit posts refreshed successfully!",
+        });
+        refetch();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to refresh Reddit posts. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRefreshing(false);
+    }
+  }
+
+  function formatDate(dateString: string, createdUtc?: number) {
+    if (createdUtc) {
+      return new Date(createdUtc * 1000).toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric' 
+      });
+    }
+    
+    return new Date(dateString).toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric', 
+      year: 'numeric' 
+    });
+  }
 };
 
 export default BlogsSection;

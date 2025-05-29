@@ -9,20 +9,34 @@ import ExperienceSection from "@/components/ExperienceSection";
 import CurrentFocusSection from "@/components/CurrentFocusSection";
 import PhilosophySection from "@/components/PhilosophySection";
 import Footer from "@/components/Footer";
+import Navigation from "@/components/Navigation";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <HeroSection />
-      <AboutSection />
-      <SkillsSection />
-      <ExperienceSection />
-      <ProjectsSection />
-      <BlogsSection />
-      <CurrentFocusSection />
-      <PhilosophySection />
-      <CallToAction />
-      <Footer />
+      <Navigation />
+      <div className="pt-16"> {/* Add padding-top to account for fixed navigation */}
+        <HeroSection />
+        <div id="about">
+          <AboutSection />
+        </div>
+        <div id="skills">
+          <SkillsSection />
+        </div>
+        <div id="experience">
+          <ExperienceSection />
+        </div>
+        <div id="projects">
+          <ProjectsSection />
+        </div>
+        <div id="blog">
+          <BlogsSection />
+        </div>
+        <CurrentFocusSection />
+        <PhilosophySection />
+        <CallToAction />
+        <Footer />
+      </div>
     </div>
   );
 };
