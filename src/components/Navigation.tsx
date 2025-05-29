@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Menu, X, Github, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { UserMenu } from "./UserMenu";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,6 +47,9 @@ const Navigation = () => {
             <a href="#blog" className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm">
               Blog
             </a>
+            <a href="#newsletter" className="text-gray-300 hover:text-emerald-400 transition-colors duration-200 text-sm">
+              Newsletter
+            </a>
             <div className="flex items-center space-x-2">
               <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white hover:bg-gray-700 p-2">
                 <a href="https://github.com/devzone-creator" target="_blank" rel="noopener noreferrer">
@@ -58,11 +62,13 @@ const Navigation = () => {
                   Contact
                 </a>
               </Button>
+              <UserMenu />
             </div>
           </div>
 
           {/* Mobile menu button */}
-          <div className="lg:hidden flex-shrink-0">
+          <div className="lg:hidden flex items-center space-x-2 flex-shrink-0">
+            <UserMenu />
             <Button variant="ghost" size="sm" onClick={toggleMenu} className="text-gray-300 hover:text-white hover:bg-gray-700 p-2">
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
@@ -107,6 +113,13 @@ const Navigation = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Blog
+              </a>
+              <a 
+                href="#newsletter" 
+                className="block px-3 py-2 text-gray-300 hover:text-emerald-400 hover:bg-gray-700/50 rounded-md transition-all duration-200 text-sm"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Newsletter
               </a>
               <div className="flex items-center space-x-3 px-3 py-2">
                 <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white hover:bg-gray-700 p-2">
