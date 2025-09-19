@@ -5,9 +5,15 @@ import { Badge } from "@/components/ui/badge";
 const ExperienceSection = () => {
   const experiences = [
     {
+      role: "Tax Officer (Intern)",
+      company: "Ghana Revenue Authority",
+      period: "Current",
+      description: "Currently interning as a Tax Officer, gaining hands-on experience in tax administration, revenue collection systems, and government digital services."
+    },
+    {
       role: "Junior Frontend Developer",
       company: "COLDSIS Ghana Limited",
-      period: "Year 2 (Recent)",
+      period: "Previous",
       description: "Developed responsive web interfaces and collaborated with design teams to implement user-friendly solutions."
     },
     {

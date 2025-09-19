@@ -11,14 +11,14 @@ const CurrentFocusSection = () => {
           <Card className="bg-slate-800/80 backdrop-blur-sm border-slate-700 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-3 text-white">
-                <ExternalLink className="w-6 h-6 text-emerald-400" />
-                Upcoming Project
+                <Github className="w-6 h-6 text-emerald-400" />
+                Tax Administration Systems
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-slate-300">
-                Preparing to host my first major project on Wikipedia Cloud. This milestone represents 
-                my transition from local development to sharing my work with the world.
+                Currently gaining hands-on experience with tax administration systems and government 
+                digital services during my internship at Ghana Revenue Authority.
               </p>
             </CardContent>
           </Card>
@@ -26,14 +26,14 @@ const CurrentFocusSection = () => {
           <Card className="bg-slate-800/80 backdrop-blur-sm border-slate-700 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-3 text-white">
-                <Github className="w-6 h-6 text-emerald-400" />
-                GitHub Journey
+                <ExternalLink className="w-6 h-6 text-emerald-400" />
+                Expanding Project Portfolio
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-slate-300">
-                Building my GitHub portfolio by pushing local projects online. Each commit represents 
-                hours of passionate coding and learning through hands-on experience.
+                Continuously working on new projects and enhancing existing ones. My live projects 
+                demonstrate real-world application of full-stack development skills.
               </p>
             </CardContent>
           </Card>

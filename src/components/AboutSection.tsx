@@ -10,9 +10,9 @@ const AboutSection = () => {
           <CardContent className="p-8">
             <p className="text-lg text-slate-300 leading-relaxed text-center">
               I'm Munkaila Sule, a Level 300 Computer Science student from Ghana with a genuine passion for coding and building innovative solutions. 
-              My journey combines full-stack web development, compiler engineering, and graphic design. I believe in 
+              Currently interning as a Tax Officer at Ghana Revenue Authority while pursuing my studies. My journey combines full-stack web development, compiler engineering, and practical government systems experience. I believe in 
               learning by doing rather than just theory - every line of code I write brings me closer to my goals. 
-              Currently preparing to host my first project on Wikipedia Cloud and actively building my GitHub portfolio.
+              My live projects showcase real-world applications and I'm actively expanding my portfolio with meaningful solutions.
             </p>
           </CardContent>
         </Card>

@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Mail, Lock } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -22,6 +23,21 @@ export const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
   const { signIn, signUp } = useAuth();
   const { toast } = useToast();
 
+  const sendWelcomeEmail = async (email: string, name?: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('send-welcome-email', {
+        body: { email, name: name || email.split('@')[0] }
+      });
+      
+      if (error) {
+        console.error('Error sending welcome email:', error);
+      } else {
+        console.log('Welcome email sent successfully');
+      }
+    } catch (error) {
+      console.error('Failed to send welcome email:', error);
+    }
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -38,11 +54,16 @@ export const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
           variant: "destructive",
         });
       } else {
+        // Send welcome email for new signups
+        if (mode === 'signup') {
+          await sendWelcomeEmail(email);
+        }
+        
         toast({
           title: mode === 'login' ? "Welcome back!" : "Account created!",
           description: mode === 'login' 
             ? "You've successfully signed in." 
-            : "Please check your email to verify your account.",
+            : "Welcome to my tech community! Check your email for a special welcome message.",
         });
         onClose();
         setEmail('');

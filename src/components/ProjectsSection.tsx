@@ -7,48 +7,48 @@ import { Button } from "@/components/ui/button";
 const ProjectsSection = () => {
   const projects = [
     {
-      title: "Wikipedia Cloud Project",
-      description: "My upcoming project that will be hosted on Wikipedia Cloud - a milestone in my journey from local development to public deployment.",
-      status: "Coming Soon",
-      technologies: ["React", "Node.js", "Express", "Database"],
-      category: "Full-Stack",
+      title: "Ghana Supreme Cases",
+      description: "A comprehensive legal database system for Ghana Supreme Court cases, hosted on Wikimedia Toolforge infrastructure.",
+      status: "Live",
+      technologies: ["JavaScript", "Node.js", "Express", "Database"],
+      category: "Backend",
       featured: true,
-      demoUrl: null,
-      githubUrl: null,
-      inProgress: true
+      demoUrl: "https://ghanasupremecases.toolforge.org/",
+      githubUrl: "https://github.com/devzone-creator",
+      inProgress: false
     },
     {
-      title: "Compiler Design Project",
-      description: "A basic compiler implementation showcasing lexical analysis, parsing, and code generation techniques learned in my CS studies.",
-      status: "In Development",
-      technologies: ["C++", "Lexical Analysis", "Parsing", "Code Generation"],
-      category: "Compiler Engineering",
+      title: "File Frenzy",
+      description: "A powerful file management and sharing platform with advanced features for organizing and distributing digital content.",
+      status: "Live",
+      technologies: ["JavaScript", "Node.js", "React", "Database"],
+      category: "Full-Stack",
       featured: true,
-      demoUrl: null,
-      githubUrl: null,
-      inProgress: true
+      demoUrl: "https://filefrenzy.onrender.com/",
+      githubUrl: "https://github.com/devzone-creator",
+      inProgress: false
+    },
+    {
+      title: "ICT Analyzer Assignment",
+      description: "An analytical tool for ICT data processing and visualization, deployed on Vercel with modern web technologies.",
+      status: "Live",
+      technologies: ["JavaScript", "React", "Data Analysis", "Vercel"],
+      category: "Frontend",
+      featured: true,
+      demoUrl: "https://ict-analyzer-assignment.vercel.app/",
+      githubUrl: "https://github.com/devzone-creator",
+      inProgress: false
     },
     {
       title: "Portfolio Website",
       description: "This very website! Built with modern web technologies to showcase my skills and journey as a developer.",
       status: "Live",
-      technologies: ["React", "TypeScript", "Tailwind CSS", "Shadcn/ui"],
+      technologies: ["React", "JavaScript", "Tailwind CSS", "Shadcn/ui"],
       category: "Frontend",
       featured: false,
       demoUrl: "#",
       githubUrl: "https://github.com/devzone-creator",
       inProgress: false
-    },
-    {
-      title: "Local Projects Collection",
-      description: "Various projects developed during my studies and internships, currently being prepared for GitHub deployment.",
-      status: "Preparing",
-      technologies: ["JavaScript", "React", "CSS", "HTML"],
-      category: "Mixed",
-      featured: false,
-      demoUrl: null,
-      githubUrl: null,
-      inProgress: true
     }
   ];
 

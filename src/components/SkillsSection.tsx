@@ -5,11 +5,10 @@ import { Badge } from "@/components/ui/badge";
 
 const SkillsSection = () => {
   const skills = [
-    { category: "Frontend", items: ["React", "JavaScript", "TypeScript", "HTML/CSS", "Tailwind CSS"], icon: <Code className="w-5 h-5" /> },
-    { category: "Backend", items: ["Node.js", "Express", "API Development", "Database Design"], icon: <Server className="w-5 h-5" /> },
+    { category: "Frontend", items: ["React", "JavaScript", "HTML/CSS", "Tailwind CSS", "Responsive Design"], icon: <Code className="w-5 h-5" /> },
+    { category: "Backend", items: ["Node.js", "Express", "JavaScript", "Java", "API Development", "Database Design"], icon: <Server className="w-5 h-5" /> },
     { category: "Compiler Engineering", items: ["Lexical Analysis", "Parsing", "Code Generation", "Optimization"], icon: <Cpu className="w-5 h-5" /> },
-    { category: "Design", items: ["UI/UX Design", "Graphic Design", "Canva", "Blender", "Figma"], icon: <Palette className="w-5 h-5" /> },
-    { category: "Tools & Others", items: ["Git", "GitHub", "VS Code", "Linux", "Requirements Analysis"], icon: <Database className="w-5 h-5" /> }
+    { category: "Database & Others", items: ["Git", "GitHub", "VS Code", "Linux", "Requirements Analysis", "Tax Systems"], icon: <Database className="w-5 h-5" /> }
   ];
 
   return (

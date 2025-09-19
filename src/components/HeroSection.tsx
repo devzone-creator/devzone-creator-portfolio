@@ -26,7 +26,7 @@ const HeroSection = () => {
             Level 300 CS Student & Aspiring Full-Stack Developer
           </p>
           <p className="text-xs sm:text-sm lg:text-base xl:text-lg mb-4 sm:mb-6 lg:mb-8 text-blue-200 max-w-2xl mx-auto px-2 sm:px-4 break-words">
-            Junior Full-Stack Developer | Compiler Engineer | Graphic Designer | Driven by passion, not profit
+            Junior Full-Stack Developer | Tax Officer Intern | Compiler Engineer | Driven by passion, not profit
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4 px-2 sm:px-4">
             <Button variant="secondary" size="lg" className="bg-white text-blue-700 hover:bg-blue-50 w-full sm:w-auto text-sm" asChild>
